@@ -1,11 +1,5 @@
 package com.haiyisoft.crossregion.test;
 
-import com.haiyisoft.cross.region.common.core.model.SnowFlakeId;
-import com.haiyisoft.cross.region.module.high.config.SnowFlakeIdConfig;
-import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.Executors;
-
 /**
  * @author CLY
  * @date 2023/3/22 17:47

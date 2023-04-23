@@ -1,7 +1,7 @@
 package com.haiyisoft.crossregion.test;
 
-import com.haiyisoft.cross.region.common.core.model.MyByteArrayResource;
-import com.haiyisoft.cross.region.common.core.utils.SerializerUtils;
+import com.liaoyuan.cross.region.common.core.model.MyByteArrayResource;
+import com.liaoyuan.cross.region.common.core.utils.SerializerUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;

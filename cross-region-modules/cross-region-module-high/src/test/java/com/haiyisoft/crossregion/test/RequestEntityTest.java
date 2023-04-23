@@ -3,7 +3,7 @@ package com.haiyisoft.crossregion.test;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
-import com.haiyisoft.cross.region.common.core.model.CrossRegionRequestEntity;
+import com.liaoyuan.cross.region.common.core.model.CrossRegionRequestEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

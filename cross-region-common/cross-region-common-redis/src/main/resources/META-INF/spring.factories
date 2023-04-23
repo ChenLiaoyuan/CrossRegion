@@ -1,6 +1,6 @@
 # 定义自动配置类，当引入该jar包时，会自动配置RedisConfig类，完成关键服务初始化
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.haiyisoft.cross.region.common.redis.config.RedisConfiguration,\
-  com.haiyisoft.cross.region.common.redis.util.FrequencyControlUtil,\
-  com.haiyisoft.cross.region.common.redis.util.RedisService,\
-  com.haiyisoft.cross.region.common.redis.util.RedisUtil
+  com.liaoyuan.cross.region.common.redis.config.RedisConfiguration,\
+  com.liaoyuan.cross.region.common.redis.util.FrequencyControlUtil,\
+  com.liaoyuan.cross.region.common.redis.util.RedisService,\
+  com.liaoyuan.cross.region.common.redis.util.RedisUtil
