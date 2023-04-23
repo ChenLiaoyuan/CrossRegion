@@ -1,0 +1,43 @@
+spring:
+  kafka:
+    # 设置Kafka集群
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # com.haiyisoft.cross.region.common.kafka.serialization.FastJson2JsonKafkaSerializer
+      value-serializer: com.haiyisoft.cross.region.common.kafka.serialization.JDKKafkaSerializer
+      acks: 1 # ack=1，启动kafka回传确认，但只是leader收到就回传了，不等待其他follower同步，如果leader宕机了，可能数据会丢失
+      batch-size: 16384 # 16KB 批量发送，当生成者的数量达到该字节数16KB，则进行发送
+      buffer-memory: 33554432 # 设置缓存，如果生产数据的速度大于发送给Kafka的速度，那么就会产生阻塞；此时就将待发送kafka的数据先保存到缓存中(32MB)
+      retries: 3 # 重试次数
+      compression-type: gzip # 使用gzip压缩
+      properties:
+        max.request.size: 20971520 # 20MB，生产者最大传输数据大小
+        # max.message.bytes: 20971520 # 20MB，还要在kafka server.properties修改该配置
+    consumer:
+      # 设置为可以处理序列化异常的序列化器，避免产生“反序列化失败-重试-反序列化失败”的死循环(Poison Pill)
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      group-id: cross-region-group # REQUEST、RESPONSE主题的消费者组要不一样，否则client-id一样，提交offset有问题
+      enable-auto-commit: true #消费之后，自动提交消费者偏移量offset
+      auto-commit-interval: 1000 # 提交offset偏移量的间隔
+      auto-offset-reset: latest # 每次都是从最新的位置开始消费
+      max-poll-records: 500 # 设置一次拉取的最大记录数，默认为500条（如果设置太大，可能会超过max.poll.interval.ms，导致消费组认为该消费者失效了）
+      fetch-max-wait: 60000 # 从partition中拉取数据最大等待时间
+      discard-unconsumed-data: true # 是否抛弃未消费数据（自定义），由于该程序主要作为代理，如果程序崩溃，对于累计的超时跨区请求是无需处理的（也可以避免瞬时处理大量的请求），程序恢复后重新发起跨区请求即可
+      properties:
+        max.partition.fetch.bytes: 20971520 # 20MB，消费者的最大消息大小
+        # 配置实际处理key的反序列化器
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        # 配置实际处理value的反序列化器
+        # com.haiyisoft.cross.region.common.kafka.serialization.FastJson2JsonKafkaDeserializer String无法序列化二进制
+        spring.deserializer.value.delegate.class: com.haiyisoft.cross.region.common.kafka.serialization.JDKKafkaDeserializer
+
+    properties:
+      session.timeout.ms: 60000  # session过期时间设置为1分钟（1分钟内如果没有第二次请求，session就会判为过期了，就要重新认证）
+      request.timeout.ms: 70000 # 请求超时时间为70秒，kafka服务器70秒内都没有响应请求，就判为请求超时，必须大于session.timeout.ms的设置
+      max.poll.interval.ms: 60000 # 拉取数据的间隔最大为1分钟，如果超过max.poll.interval.ms这个时间时，消费者组会放弃检测，将消费者从组内剔除
+    listener:
+      missing-topics-fatal: false # 消费的topic不存在时，项目启动不报错
+      type: batch # 批量消费，默认为single
+#      ack-mode: manual # 手动提交offset

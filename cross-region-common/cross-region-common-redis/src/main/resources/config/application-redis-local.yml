@@ -1,0 +1,36 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+#    password: ""
+    # Redis 默认数据库设置
+    database: 0
+    timeout: 3000ms
+    # Redis Cluster集群节点配置
+#    cluster:
+#      # Redis 集群地址信息
+#      nodes:
+#        - 172.19.17.180:6381
+#        - 172.19.17.180:6382
+#        - 172.19.17.181:6383
+#        - 172.19.17.181:6384
+#        - 172.19.17.182:6385
+#        - 172.19.17.182:6386
+      # 获取失败 最大重定向次数
+#      max-redirects: 3
+    #如果用以前的jedis，可以把下面的lettuce换成jedis即可
+    lettuce:
+      pool:
+        # 连接池最大连接数默认值为8，超过最大连接数，后面的连接请求进入队列排队，超过max-wait就报异常
+        max-active: 1000
+        # 连接池最大阻塞时间（使用负值表示没有限制）默认值为-1
+        max-wait: -1
+        # 连接池中最大空闲连接数默认值为8，最佳性能是最小空闲与最大空闲保持一致，避免频繁地关闭创建连接
+        max-idle: 10
+        # 连接池中的最小空闲连接数，默认值为0
+        min-idle: 10
+#      cluster:
+#        refresh:
+#          adaptive: true
+#          dynamic-refresh-sources: true
+#          period: 10000ms

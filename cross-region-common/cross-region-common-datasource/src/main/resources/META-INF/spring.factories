@@ -1,0 +1,3 @@
+# 定义自动配置类，当引入该jar包时，会自动配置RedisConfig类，完成关键服务初始化
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.haiyisoft.cross.region.common.datasource.config.MyBatisPlusConfig

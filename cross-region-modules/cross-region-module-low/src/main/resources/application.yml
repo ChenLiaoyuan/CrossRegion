@@ -1,0 +1,60 @@
+server:
+  port: 18888 #访问端口
+management:
+  security:
+    enabled: false
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+  mvc:
+    pathmatch:
+      # Spring Boot 2.6以上使用了新的path_pattern_parser，与swagger不兼容，因此改回ant_path_matcher
+      matching-strategy: ant_path_matcher
+  cloud:
+    sentinel:
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        dashboard: 172.19.17.180:8080 # Sentinel控制台地址，使用容器部署要改为8080端口，而不是8081端口
+        port: 8719 # 与Sentinel控制台通信的客户端端口
+        client-ip: 172.19.17.188 # 客户端ip，容器部署的必须指定，否则ip会不通，通信失败
+      datasource:
+        ds:
+          nacos:
+            server-addr: 172.19.17.182:8848,172.19.17.181:8848,172.19.17.180:8848 # Nacos地址
+            dataId: ${spring.application.name}-sentinel # 自定义Nacos中存储规则的dataId
+            groupId: DEFAULT_GROUP # 自定义Nacos中存储规则的groupId
+            rule-type: flow # 自定义存储规则的类型为flow
+okhttp3:
+  thread-pool: # 内部执行http请求的实际线程池
+    core-pool-size: 500 # 核心线程数，默认为0
+    max-pool-size: 500 # 最大核心线程数，默认为 Integer.MAX_VALUE
+    keep-alive-time-seconds: 60 # 空闲线程存活时间，默认为60秒
+    blocking-queue-size: 200 # 阻塞队列长度
+  dispatcher: # 请求分发，maxRequests和maxRequestPerHost是okhttp内部维持的请求队列，而executorservice是实际发送请求的线程
+    max-request: 500 # 当前okhttpclient实例最大的并发请求数
+    max-request-per-host: 100 # 单个主机最大请求并发数，这里的主机指被请求方主机，一般可以理解对调用方有限流作用。
+  connection-pool: # 连接池，每个TCP连接都会进行三次握手，并且因为TCP的拥塞控制使用的滑动窗口和慢开始算法导致网络带宽利用率不高。所以，在HTTP/2不可用时，OkHttp使用了连接池，避免为每个请求都创建连接。
+    # 注意没有最大连接数，最大连接数受thread-pool和dispatcher影响
+    max-idle-connection: 20 # 最大空闲连接数，请求完后http连接不会立即关闭，少于指定的数量会存活到指定时间，后面来了相同地址的请求可以复用
+    keep-alive-seconds: 300 # OkHttp在创建连接时，默认创建长连接，空闲连接存活时间
+  connect-timeout-seconds: 10 # http连接超时时间，指定时间还没与服务端连接成功则报超时，默认为10秒
+  read-timeout-seconds: 10 # http读取服务端响应数据超时时间，指定时间服务端还没响应读取请求则报超时，默认为10秒
+  write-timeout-seconds: 10 # http将数据写入服务端超时时间，指定时间服务端还没响应写入请求则报超时，默认为10秒
+
+# 雪花id，各服务的worker-id和datacenter-id组合必须唯一
+snow-flake:
+  worker-id: 1
+  datacenter-id: 1
+
+
+
+logging:
+  level:
+    root: info
+    org.springframework.web: debug
+    com.baomidou.dynamic: debug

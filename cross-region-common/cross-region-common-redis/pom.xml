@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.haiyisoft</groupId>
+        <artifactId>cross-region-common</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <groupId>com.haiyisoft</groupId>
+    <artifactId>cross-region-common-redis</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>cross-region-common-redis</name>
+    <description>redis公共配置</description>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+
+        <!-- 实现对 Spring Data Redis 的自动化配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <scope>provided</scope> <!-- 由cross-region-common-redis引入的模块再引入该依赖，避免jar包臃肿 -->
+        </dependency>
+
+        <!--
+        Lettuce是一个基于Netty框架的异步非阻塞Redis客户端，它支持连接池和集群模式，并且具有比Jedis更好的性能和可伸缩性。
+        Lettuce的优点包括：
+            1、可以在多个线程之间共享一个连接
+            2、支持异步命令执行
+            3、可以在命令执行时取消命令
+            4、支持基于哨兵和集群的自动故障转移
+            5、可以与Reactive编程模型集成。
+        Jedis是一个基于Java的阻塞Redis客户端，它使用了自己的连接池来管理连接，但它不支持Redis集群模式。
+        -->
+
+        <!-- lettuce pool 缓存连接池-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.haiyisoft</groupId>
+            <artifactId>cross-region-common-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial.snappy</groupId>
+            <artifactId>snappy-java</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

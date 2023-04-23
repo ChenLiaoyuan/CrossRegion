@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.haiyisoft</groupId>
+    <artifactId>cross-region</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>cross-region</name>
+    <description>跨区请求</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <cross-region.version>0.0.1-SNAPSHOT</cross-region.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <spring-boot.version>2.7.8</spring-boot.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+        <fastjson.version>2.0.22</fastjson.version>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
+        <commons-pool2.version>2.11.1</commons-pool2.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <okhttp.version>4.9.3</okhttp.version>
+        <dynamic-datasource.version>3.5.2</dynamic-datasource.version>
+        <druid.version>1.2.15</druid.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <freemarker.version>2.3.28</freemarker.version>
+        <mysql.version>8.0.20</mysql.version>
+        <snappy-java.version>1.1.8.4</snappy-java.version>
+        <kryo.version>5.3.0</kryo.version>
+    </properties>
+
+    <modules>
+        <module>cross-region-common</module>
+        <module>cross-region-modules</module>
+    </modules>
+
+    <dependencies>
+
+        <!-- bootstrap 启动器，每个子模块都要引入，用于bootstrap.yml在启动前连接Nacos获取配置 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.jetbrains.kotlin</groupId>-->
+<!--            <artifactId>kotlin-stdlib</artifactId>-->
+<!--            <version>1.6.0</version>-->
+<!--        </dependency>-->
+
+    </dependencies>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- SpringCloud 微服务 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- SpringCloud Alibaba 微服务 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- SpringBoot 依赖配置 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- 公共实体 -->
+            <dependency>
+                <groupId>com.haiyisoft</groupId>
+                <artifactId>cross-region-common-core</artifactId>
+                <version>${cross-region.version}</version>
+            </dependency>
+
+            <!-- 公共日志 -->
+            <dependency>
+                <groupId>com.haiyisoft</groupId>
+                <artifactId>cross-region-common-log</artifactId>
+                <version>${cross-region.version}</version>
+            </dependency>
+
+            <!-- 公共redis -->
+            <dependency>
+                <groupId>com.haiyisoft</groupId>
+                <artifactId>cross-region-common-redis</artifactId>
+                <version>${cross-region.version}</version>
+            </dependency>
+
+            <!-- 公共实体 -->
+            <dependency>
+                <groupId>com.haiyisoft</groupId>
+                <artifactId>cross-region-common-kafka</artifactId>
+                <version>${cross-region.version}</version>
+            </dependency>
+
+            <!-- 公共Swagger配置 -->
+            <dependency>
+                <groupId>com.haiyisoft</groupId>
+                <artifactId>cross-region-common-swagger</artifactId>
+                <version>${cross-region.version}</version>
+            </dependency>
+
+            <!-- 公共Datasource配置 -->
+            <dependency>
+                <groupId>com.haiyisoft</groupId>
+                <artifactId>cross-region-common-datasource</artifactId>
+                <version>${cross-region.version}</version>
+            </dependency>
+
+            <!-- 引入swagger规范的实现springfox -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox-boot-starter.version}</version>
+            </dependency>
+
+            <!-- JSON 解析器和生成器 -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- 连接池 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
+
+            <!-- http客户端 -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <!-- 字符串、时间日期、反射、两对Pair、三对Triple等工具类 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <!-- http客户端 -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
+            <!-- 主从多数据源 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+
+            <!-- Druid 连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- mybatis-plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- mybatis-plus-generator需要用到freemarker模板生成代码 -->
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!-- redis kryo序列化器 -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
+            <!-- snappy压缩 -->
+            <dependency>
+                <groupId>org.xerial.snappy</groupId>
+                <artifactId>snappy-java</artifactId>
+                <version>${snappy-java.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 本地或者中央仓库都没有依赖，则从此仓库下载 -->
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
