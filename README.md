@@ -79,3 +79,8 @@ server {
         }
     }
 ```
+# 本地性能测试
+![image](https://user-images.githubusercontent.com/21029600/233830149-75dba6d3-bbfe-46c1-9ca3-4fbb9a6158b9.png)
+本地环境性能测试，每秒500并发，持续压测30秒，平均响应为100ms
+
+
